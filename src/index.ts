@@ -1,6 +1,6 @@
-import * as path from 'path';
-import * as fs from 'fs';
 import { LoggerModes } from '@overnightjs/logger';
+import * as fs from 'fs';
+import * as path from 'path';
 
 import { Router } from './Router/RouterServer';
 
@@ -9,7 +9,6 @@ const logFilePath = path.join(__dirname, '../stryfe-backend.log');
 process.env.OVERNIGHT_LOGGER_FILEPATH = logFilePath;
 process.env.OVERNIGHT_LOGGER_MODE = LoggerModes.Console;
 process.env.OVERNIGHT_LOGGER_RM_TIMESTAMP = 'false';
-
 
 // Remove current log file.
 (function removeFile() {
@@ -21,4 +20,3 @@ process.env.OVERNIGHT_LOGGER_RM_TIMESTAMP = 'false';
 const server = new Router();
 
 server.start();
-

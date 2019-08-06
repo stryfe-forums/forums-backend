@@ -1,17 +1,15 @@
 import { Server } from '@overnightjs/core';
 import { Logger } from '@overnightjs/logger';
-import * as Controllers from './Controllers';
 import bodyParser = require('body-parser');
 import { OK } from 'http-status-codes';
-
+import * as Controllers from './Controllers';
 
 export class Router extends Server {
-
 	public constructor() {
 		// set showLogs to true
 		super(true);
 
-		this.app.use(bodyParser.json())
+		this.app.use(bodyParser.json());
 		this.app.use(bodyParser.urlencoded({ extended: true }));
 		this.setupControllers();
 	}

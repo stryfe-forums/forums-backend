@@ -5,7 +5,6 @@ import { OK } from 'http-status-codes';
 
 @Controller('api/home')
 export class APIController {
-
 	@Get('/')
 	private getAPIHomePage(req: Request, res: Response) {
 		res.status(OK).send('Hello from the Stryfe API');
