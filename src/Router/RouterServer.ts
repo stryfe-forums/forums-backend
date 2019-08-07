@@ -2,15 +2,23 @@ import { Server } from '@overnightjs/core';
 import { Logger } from '@overnightjs/logger';
 import bodyParser = require('body-parser');
 import { OK } from 'http-status-codes';
+import { TypeORMController } from '../Database';
 import * as Controllers from './Controllers';
 
 export class Router extends Server {
+	public database: TypeORMController = new TypeORMController();
+
 	public constructor() {
 		// showLogs
-		super(false);
+		super(false); // You can change this to true or false. this simply just allows logging when controllers are registered.
 
 		this.app.use(bodyParser.json());
 		this.app.use(bodyParser.urlencoded({ extended: true }));
+
+		(async () => {
+			await this.database.createConnection();
+		})();
+
 		this.setupControllers();
 	}
 
