@@ -1,7 +1,8 @@
 import { Logger } from '@overnightjs/logger';
 import { Connection, createConnection, getRepository, Repository } from 'typeorm';
 import { TypeORMModels } from '../Interfaces';
-import { HelloWorldModel } from '../Models';
+import { HelloWorldModel, UserData } from '../Models';
+
 
 /**
  * @description This serves as an interface for our Database.
@@ -21,7 +22,7 @@ export class TypeORMController {
 				username: 'postgres',
 				database: 'postgres',
 				port: 5432,
-				entities: [HelloWorldModel] // Don't change this unelss you know what you're doing
+				entities: [HelloWorldModel, UserData] // Don't change this unelss you know what you're doing
 			});
 		} catch (e) {
 			Logger.Err(e, true);
