@@ -1,1 +1,1 @@
-export * from './TypeORMModels';
+export * from './Models';

@@ -1,8 +1,7 @@
 import { Logger } from '@overnightjs/logger';
 import { Connection, createConnection, getRepository, Repository } from 'typeorm';
 import { TypeORMModels } from '../Interfaces';
-import { HelloWorldModel, UserData } from '../Models';
-
+import { UserAuthData, Post } from '../Models';
 
 /**
  * @description This serves as an interface for our Database.
@@ -10,7 +9,6 @@ import { HelloWorldModel, UserData } from '../Models';
  */
 export class TypeORMController {
 	private handler: Connection;
-	private ready: boolean = false;
 
 	public models: TypeORMModels;
 
@@ -22,7 +20,7 @@ export class TypeORMController {
 				username: 'postgres',
 				database: 'postgres',
 				port: 5432,
-				entities: [HelloWorldModel, UserData] // Don't change this unelss you know what you're doing
+				entities: [UserAuthData] // Don't change this unelss you know what you're doing
 			});
 		} catch (e) {
 			Logger.Err(e, true);
@@ -32,20 +30,19 @@ export class TypeORMController {
 		await this.handler.synchronize();
 
 		this.models = {
-			helloWorld: getRepository(HelloWorldModel)
+			userAuthData: getRepository(UserAuthData),
+			postData: getRepository(Post)
 		};
 
 		Object.freeze(this.models); // At this point we've added all of our models. we shouldn't want to add anymore.
+	}
 
-		this.ready = true;
+	public getModel<T>(model: string): Repository<T> {
+		if (!this.handler.isConnected) throw new Error('The connection is not ready yet!');
+		return this.models[model];
 	}
 
 	public get connection() {
 		return this.handler;
-	}
-
-	public getModel<T>(model: string): Repository<T> {
-		if (!this.ready) throw new Error('The connection is not ready yet!');
-		return this.models[model];
 	}
 }

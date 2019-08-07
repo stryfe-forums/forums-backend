@@ -1,11 +1,16 @@
-import { Entity, PrimaryColumn, Column } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
-@Entity('stryfeUserData')
-export class UserData {
-
+@Entity('stryfeUserAuthData')
+export class UserAuthData {
 	@PrimaryColumn()
-	public readonly id: string;
+	public readonly id!: string;
 
 	@Column()
-	public access_tokens: any; // @TODO: IMPLEMENT THIS 4HEAD
+	public jwtToken: string;
+
+	@Column()
+	public access_token: string;
+
+	@Column()
+	public refresh_token: string;
 }

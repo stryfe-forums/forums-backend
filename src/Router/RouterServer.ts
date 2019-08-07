@@ -27,7 +27,7 @@ export class Router extends Server {
 		for (const name of Object.keys(Controllers)) {
 			const controller = (Controllers as any)[name];
 			if (typeof controller === 'function') {
-				controllerInstances.push(new controller());
+				controllerInstances.push(new controller(this.database));
 			}
 		}
 		super.addControllers(controllerInstances);
