@@ -6,8 +6,8 @@ import * as Controllers from './Controllers';
 
 export class Router extends Server {
 	public constructor() {
-		// set showLogs to true
-		super(true);
+		// showLogs
+		super(false);
 
 		this.app.use(bodyParser.json());
 		this.app.use(bodyParser.urlencoded({ extended: true }));
