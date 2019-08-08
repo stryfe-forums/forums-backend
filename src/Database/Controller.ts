@@ -20,7 +20,7 @@ export class TypeORMController {
 				username: 'postgres',
 				database: 'postgres',
 				port: 5432,
-				entities: [UserAuthData] // Don't change this unelss you know what you're doing
+				entities: [UserAuthData, Post] // Don't change this unelss you know what you're doing
 			});
 		} catch (e) {
 			Logger.Err(e, true);
