@@ -8,6 +8,6 @@ export class UserAuthData {
 	@Column()
 	public jwtToken: string;
 
-	@Column({ type: 'timestamp' })
+	@Column({ type: 'timestamp', nullable: true })
 	public expiresIn: number;
 }
