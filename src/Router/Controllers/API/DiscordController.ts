@@ -12,7 +12,7 @@ import { UserAuthData } from '../../../Models';
 import { TypeORMController } from '../../../Database';
 import { JWTBody } from '../../../Interfaces';
 
-@Controller('api/discord')
+@Controller('discord')
 export class DiscordAPIController {
 
 	constructor(public database: TypeORMController) {
