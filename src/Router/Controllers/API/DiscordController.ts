@@ -41,9 +41,9 @@ export class DiscordAPIController {
 
 		const json = await response.json();
 		const userInfo = await this.getUserInfo(json.access_token);
-		const entry = await this.database.getModel<UserAuthData>('userAuthData').findOne({ jwtToken: req.query.state });
+		// const entry = await this.database.getModel<UserAuthData>('userAuthData').findOne({ jwtToken: req.query.state });
 
-		if (entry) return res.status(OK).json({ payload: entry.jwtToken });
+		// if (entry) return res.status(OK).json({ payload: entry.jwtToken }); // @TODO: this is does nothing as we stopped using this method, so it needs to be fixed
 
 		const payload = this.jwt.jwt({
 			access_token: json.access_token,
