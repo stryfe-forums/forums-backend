@@ -5,7 +5,7 @@ import { OK, BAD_REQUEST } from 'http-status-codes';
 
 import fetch from 'node-fetch';
 import btoa from 'btoa';
-import jwt from 'jsonwebtoken';
+import jwt, { decode } from 'jsonwebtoken';
 import url from 'url';
 
 import { UserAuthData } from '../../../Models';
@@ -73,16 +73,19 @@ export class DiscordAPIController {
 
 	@Get('verify')
 	private async getVerify(req: Request, res: Response) {
-		if (!req.query.token) return res.status(BAD_REQUEST).json({ error: 'Missing token Header!' });
+		const state = req.query;
 
-		const decoded = jwt.verify(req.query.token! as string, process.env.JWT_SECRET!) as JWTBody;
+		if (!state.token) return res.status(BAD_REQUEST).json({ valid: false, error: 'Missing JWT!' });
 
-		const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+		const decoded = jwt.verify(state.token! as string, process.env.JWT_SECRET!) as JWTBody;
 
-		
-		if (decoded.exp < Date.now()) return res.status(OK).redirect(`${fullUrl}?valid=false&reason=${encodeURIComponent('Token expired.')}`);
+		const entry = await this.database.getModel<UserAuthData>('userAuthData').findOne({ id: state.id });
 
-		return res.status(OK).redirect(`${fullUrl}?valid=true`);
+		if (state.token !== entry!.jwtToken) return res.status(BAD_REQUEST).redirect(`http://localhost:3000/discord/loggedin?valid=false&reason=${encodeURIComponent('token does not match or is malformed!')}`);
+
+		if (decoded.exp < Date.now()) return res.status(OK).redirect(`http://localhost:3000/discord/loggedin?valid=false&reason=${encodeURIComponent('Token expired.')}`);
+
+		return res.status(OK).redirect('http://localhost:3000/discord/loggedin?valid=true&reason=false');
 	}
 
 	private async getUserInfo(accessToken: string) {

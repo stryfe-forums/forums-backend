@@ -1,4 +1,4 @@
-export interface JWTBody { // @TODO: Refactor
+export type JWTBody = { // @TODO: Refactor
 	access_token: string;
 	refresh_token: string;
 	user_id: string;
