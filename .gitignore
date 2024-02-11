@@ -7,3 +7,4 @@ yarn.lock
 
 # Envronment Variables (Stuff we should NEVER share with anyone)
 .env
+config.ts

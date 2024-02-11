@@ -1,22 +1,8 @@
-import { LoggerModes } from '@overnightjs/logger';
-import { unlinkSync } from 'fs';
-import { join } from 'path';
+import { LoggerModes, jetLogger } from 'jet-logger';
+import { Router } from './Router';
 
-import { Router } from './Router/RouterServer';
+process.env.LOGGER_MODE = LoggerModes.Console;
 
-// Set environment variables for logger.
-const logFilePath = join(__dirname, '../stryfe-backend.log');
-process.env.OVERNIGHT_LOGGER_FILEPATH = logFilePath;
-process.env.OVERNIGHT_LOGGER_MODE = LoggerModes.Console;
-process.env.OVERNIGHT_LOGGER_RM_TIMESTAMP = 'false';
-
-// Remove current log file.
-(() => {
-	try {
-		unlinkSync(logFilePath);
-	} catch (e) { return; }
-})();
+export const logger = jetLogger(LoggerModes.Console);
 
 const server = new Router();
-
-server.start();
